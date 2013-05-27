@@ -1,0 +1,89 @@
+#div_account .leftcol
+{
+	float: left;
+	width: 150px;
+}
+
+#div_account .rightcol
+{
+	margin-left: 160px;
+}
+
+/************/
+/** Widget **/
+/************/
+
+#user_widget
+{
+	padding: 10px;
+	border: 1px silver dashed;
+}
+
+#user_widget_login .separator
+{
+	text-align: center;
+}
+
+#user_widget_login .div_login
+{
+	margin: auto;
+}
+
+#user_widget_login .div_login p
+{
+	text-align: center;
+}
+
+/**************/
+/** Hub Menu **/
+/**************/
+
+#user_hub
+{
+	
+}
+
+#user_hub .menu
+{
+	float: left;
+	width: 170px;
+	margin: 0px 10px 0px 5px;
+}
+#user_hub .menu ul
+{
+	margin: auto;
+	margin-top: 3px;
+	list-style-type: none;
+	padding: 0px;
+}
+#user_hub .menu li
+{
+	margin:0 0 10px 0;
+	text-align: center;
+}
+
+#user_hub .menu li a
+{
+	text-decoration: none;
+}
+
+#user_hub .menu li:hover
+{
+}
+
+#user_hub .menu .selected
+{
+	text-decoration: underline;
+}
+
+
+#user_hub .content
+{
+	margin-left: 180px;
+}
+
+
+
+/***********************/
+/*** Account Editing ***/
+/***********************/

@@ -1,0 +1,21 @@
+<table class="tab_admin tab_admin_sub">
+	<tr>
+		<th rowspan="2">Name</th>
+		<th colspan="4">Nbr prediction</th>
+	</tr>
+	<tr>
+		<th width="40">VALUE</th>
+		<th width="40">PM</td>
+		<th width="40">TREND</th>
+		<th width="40">Total</th>
+	</tr>
+	{foreach from=$array_curve item=c}
+	<tr>
+		<td><a href="?Admin/Curve/view/{$c.id}">{$c.name}</a></td>
+		<td class="center">{$c.cnt_VALUE}</td>
+		<td class="center">{$c.cnt_PM}</td>
+		<td class="center">{$c.cnt_TREND}</td>
+		<td class="center">{$c.cnt_total}</td>
+	</tr>
+	{/foreach}
+</table>

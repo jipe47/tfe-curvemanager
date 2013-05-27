@@ -1,0 +1,26 @@
+<div id="bugtracker_view">
+	<h1>Issue #{$info.id} - {$array_status.{$info.status}}</h1>
+	
+	<table class="info">
+		<tr>
+			<td width="100">Status</td>
+			<td class="status_{$info.status}">{$array_status.{$info.status}}</td>
+		<tr>
+			<td>Device</td>
+			<td>{$info.device}</td>
+		</tr>
+		</tr>
+		<tr>
+			<td>Summary</td>
+			<td>{$info.summary}</td>
+		</tr>
+		<tr>
+			<td>Description</td>
+			<td>{$info.description}</td>
+		</tr>
+		<tr>
+			<td>Reproduction</td>
+			<td>{$info.reproduction}</td>
+		</tr>
+	</table>
+</div>

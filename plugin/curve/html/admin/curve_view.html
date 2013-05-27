@@ -1,0 +1,291 @@
+{assign var="isPartial" value=$info.hidden_id_zone!=""}
+<div id="curve_view">
+	
+	<h1>{$info.name}</h1>
+	
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">General</a></li>
+			<li><a href="#tabs-2">Zone Management</a></li>
+			<li><a href="#tabs-3">Users' Predictions</a></li>
+			{if $isPartial}
+			<li><a href="#tabs-4">Prediction Comparison</a></li>
+			{/if}
+			<li><a href="#tabs-5">Options</a></li>
+		</ul>
+		<div id="tabs-1">
+			<h2>Description</h2>
+			{if $info.description != ""}{$info.description}{else}<p><em>No description.</em></p>{/if}
+			
+			<h2>Preview</h2>
+			<img src="curveDisplay.php?width=900&amp;mode=id_curve&amp;id_curve={$info.id}&amp;zones_to_predict={$zones_to_predict}" />
+			
+		</div>
+		
+		<div id="tabs-2">
+			<h2>Zones management</h2>
+			<table>
+				<tr>
+					<th>From</th>
+					<th>To</th>
+					<th>Nbr value prediction</th>
+					<th>Nbr PM prediction</th>
+					<th>Nbr trend prediction</th>
+					<th>Action</th>
+				</tr>
+				{foreach from=$array_zone key=k item=z}
+				<tr>
+					<td>{$z.start}</td>
+					<td>{if $z.end != ""}{$z.end}{else}<em>end</em>{/if}</td>
+					
+					{if array_key_exists($z.id, $predictions)}
+					<td>{$predictions.{$z.id}.VALUE.nbr_prediction}</td>
+					<td>{$predictions.{$z.id}.PM.nbr_prediction}</td>
+					<td>{$predictions.{$z.id}.TREND.nbr_prediction}</td>
+					{else}
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					{/if}
+					
+					<td>
+						{if $info.hidden_id_zone != $z.id}
+						{jphp_widget p=Modal w=confirm button_text={jphp_image src={'delete'|jphp_button} description="Delete this zone"} handler_yes="?Request/Curve/zone/delete/{$z.id}" message="Are you sure you want to delete this zone? Predictions will be lost."}
+						{/if}
+					</td>
+				</tr>
+				{/foreach}
+			</table>
+			
+			<h2>New Zone</h2>
+			
+			<form method="post" action="?Request/Curve/zone/add">
+				<input type="hidden" name="id_curve" value="{$info.id}" />
+			
+				<h3>Range</h3>
+				<p>Zone range: <input type="text" id="newzone-start" name="start" /> - <input type="text" id="newzone-end" name="end" /></span></p>
+	
+				<div id="slider-newzone"></div>
+				<div id="range-display">
+					<div class="leftzone">{$minX}</div>
+					<div class="rightzone">{$maxX}</div>
+				</div>
+				<div class="clearfix"></div>
+		
+				<h3>Input Parameters</h3>
+				
+				<h4>Value Prediction</h4>
+	
+				<p>Allowed error: <input type="text" name="value_allowederror" value="{$curveHeight*0.2}" /></p>
+				<p>Max error: <input type="text" name="value_maxerror" value="{$curveHeight*0.4}" /></p>
+				<p>Max gain: <input type="text" name="value_gain" value="750" /></p>
+				<p>Max loss: <input type="text" name="value_loss" value="150" /></p>
+			
+				<h4>PM Prediction</h4>
+				
+				<p>Gain if good zone: <input type="text" name="pm_gain" value="750" /></p>
+				<p>Loss if wrong zone: <input type="text" name="pm_loss" value="150" /></p>
+			
+				<h4>Trend Prediction</h4>
+				
+				<p>Allowed error: <input type="text" name="trend_allowederror" value="{$curveHeight*0.1}" /></p>
+				<p>Max error: <input type="text" name="trend_maxerror" value="{$curveHeight*0.2}" /></p>
+				<p>Max gain: <input type="text" name="trend_gain" value="1500" /></p>
+				<p>Max loss: <input type="text" name="trend_loss" value="150" /></p>
+			
+	
+				<p><input type="submit" value="Add" /></p>
+			</form>
+			
+			
+			<script type="text/JavaScript">
+			 $(function() {
+				 $( "#slider-newzone" ).slider({
+				 range: true,
+				 min: {$minX},
+				 max: {$maxX},
+				 step: {{$step}},
+				 values: [ {$minX}, {$maxX} ],
+				 slide: function( event, ui ) {
+					 $( "#newzone-start" ).val(ui.values[ 0 ]);
+					 $( "#newzone-end" ).val(ui.values[ 1 ]);
+				 }
+				 });
+				 $( "#newzone-start" ).val($( "#slider-newzone" ).slider( "values", 0 ));
+				 $( "#newzone-end" ).val($( "#slider-newzone" ).slider( "values", 1 ));
+				 });
+			</script>
+		</div>
+		
+		<div id="tabs-3">
+			<h1>Predictions</h1>
+			<div id="tabszone">
+				<ul>
+					{foreach from=$array_zone item=zone key=k}
+						<li><a href="#tabszone-{$k}">Zone #{$k + 1}</a></li>
+					{/foreach}
+				</ul>
+			
+				{foreach from=$array_zone item=zone key=k}
+				<div id="tabszone-{$k}">
+					<h2>Zone #{$k + 1}</h2>
+					
+					<ul class="curve_tabs zone_{$zone.id}_tabs">
+						<li id="zone_{$zone.id}_tab_general" onclick="adminCurveDisplayTab({$zone.id}, 'global')" class="selected">General</li>
+						<li id="zone_{$zone.id}_tab_value" onclick="adminCurveDisplayTab({$zone.id}, 'value')">Value</li>
+						<li id="zone_{$zone.id}_tab_pm" onclick="adminCurveDisplayTab({$zone.id}, 'pm')">PM</li>
+						<li id="zone_{$zone.id}_tab_trend" onclick="adminCurveDisplayTab({$zone.id}, 'trend')">Trend</li>
+						<li id="zone_{$zone.id}_tab_trend" onclick="adminCurveDisplayTab({$zone.id}, 'algorithm')">Algorithms</li>
+					</ul>
+					<div class="clearfix"></div>
+					
+					<div id="zone_{$zone.id}_global" class="tab_zone_{$zone.id} curve_tab_show">
+						<h3>General</h3>
+						<img src="curveDisplay.php?width=900&amp;mode=id_curve&amp;id_curve={$info.id}&amp;zones_to_predict={$zone.start};{$zone.end}" />
+					</div>
+					
+					
+					<div id="zone_{$zone.id}_algorithm" class="tab_zone_{$zone.id} curve_tab_hidden">
+						<h3>Algorithms</h3>
+						
+						<p>Display algorithms:</p>
+						<ul>
+						{foreach from=$array_algorithm item=a}
+							<li>
+								<input type="checkbox" value="{$a.id}" checked="checked" id="algorithms_{$zone.id}_{$a.id}" />
+								<label for="algorithms_{$zone.id}_{$a.id}">{$a.name}</label>
+							</li>
+						{/foreach}
+							<li>
+								<input type="checkbox" checked="checked" id="user_{$zone.id}" />
+								<label for="user_{$zone.id}">User</label>
+						</ul>
+						<input type="hidden" id="user_trend_{$zone.id}" value="{$predictions.{$zone.id}.TREND.mean_prediction}" />
+						<p>
+							<input type="button" onclick="displayAlgorithms({$zone.id})" value="Ok" />
+							<input type="button" onclick="selectAllAlgorithms({$zone.id})" value="Select all" />
+							<input type="button" onclick="deselectAllAlgorithms({$zone.id})" value="Deselect all" />
+						</p>
+						
+						
+						<div id="image_comparison">
+							<img src="curveDisplay.php?width=900&amp;mode=id_curve&amp;id_curve={$info.id}&amp;predictions_type=algorithm&amp;id_zone={$zone.id}" />
+						</div>
+					</div>
+					
+					{if array_key_exists($zone.id, $predictions)}
+					
+					<div id="zone_{$zone.id}_value" class="tab_zone_{$zone.id} curve_tab_hidden">
+						<h3>Value</h3>
+						{if $predictions.{$zone.id}.VALUE.nbr_prediction == 0}
+						<p><em>There is no prediction for this type of input for this zone.</em></p>
+						{else}
+						<img src="curveDisplay.php?width=900&amp;mode=id_curve&amp;id_curve={$info.id}&amp;zones_to_predict={$zone.start};{$zone.end}&amp;predictions_type=value&amp;prediction_data={$predictions.{$zone.id}.VALUE.mean_prediction}" />
+						{/if}
+					</div>
+					
+					<div id="zone_{$zone.id}_pm" class="tab_zone_{$zone.id} curve_tab_hidden">
+						<h3>PM</h3>
+						{if $predictions.{$zone.id}.PM.nbr_prediction == 0}
+						<p><em>There is no prediction for this type of input for this zone.</em></p>
+						{else}
+						<table>
+							<tr>
+								<th>Prediction</th>
+								<th>Number</th>
+								<th>Proportion</th>
+							</tr>
+							<tr>
+								<td>Plus</td>
+								<td>{$predictions.{$zone.id}.PM.nbr_prediction_p}</td>
+								<td>{$predictions.{$zone.id}.PM.percentage_p}%</td>
+							</tr>
+							<tr>
+								<td>Minus</td>
+								<td>{$predictions.{$zone.id}.PM.nbr_prediction_m}</td>
+								<td>{$predictions.{$zone.id}.PM.percentage_m}%</td>
+							</tr>
+						</table>
+						{/if}
+					</div>
+					
+					<div id="zone_{$zone.id}_trend" class="tab_zone_{$zone.id} curve_tab_hidden">
+						<h3>Trend</h3>
+						{if $predictions.{$zone.id}.TREND.nbr_prediction == 0}
+						<p><em>There is no prediction for this type of input for this zone.</em></p>
+						{else}
+						<img src="curveDisplay.php?width=900&amp;mode=id_curve&amp;id_curve={$info.id}&amp;zones_to_predict={$zone.start};{$zone.end}&amp;predictions_type=trend&amp;prediction_data={$predictions.{$zone.id}.TREND.mean_prediction}" />
+						{/if}
+					</div>
+					{/if}
+					
+				</div>
+				{/foreach}
+			</div>
+		</div>
+
+		{if $isPartial}
+		<div id="tabs-4">
+			<h2>Prediction comparison</h2>
+			<img src="curveDisplay.php?mode=partial&amp;id_curve={$info.id}&amp;x={$info.hidden_x_end}&amp;ys={$info.hidden_ys}&amp;prediction={$info.hidden_prediction}&amp;user={$meanHiddenTrend}" />
+		</div>
+		{/if}
+		<div id="tabs-5">
+			<h2>Options</h2>
+			<h3>Change Category</h3>
+			<form method="post" action="?Request/Curve/curve/editcategory">
+				<input type="hidden" name="id" value="{$info.id}" />
+				<p>
+				New category: 
+					<select name="id_category">
+						<option value="NULL">None</option>
+						{foreach from=$array_cat item=c}
+							<option value="{$c.id}" {if $info.id_category == $c.id}selected="selected"{/if}>
+								{section name=foo start=1 loop=$c.level step=1}- {/section}{$c.value.name}</option>
+						{/foreach}
+					</select>
+				</p>
+				<p><input type="submit" value="Update" /></p>
+			</form>
+		</div>
+	</div>
+
+</div>
+<!-- 
+<pre>
+{print_r($predictions)}
+</pre>
+ -->
+
+ <script type="text/JavaScript">
+function initTabs()
+{
+	$("#tabs").tabs();
+	$("#tabszone").tabs();
+};
+
+function displayAlgorithms(id_zone)
+{
+	var algos = $('input[id^="algorithms_'+id_zone+'_"]:checked').map(function() {
+			  return this.value;
+			}).get().join(';');
+	var displayUser = $("#user_"+id_zone).attr('checked') == "checked";
+	var userTrend = displayUser ? $("#user_trend_"+id_zone).val() : ''
+	var d = new Date();
+	
+	$("#image_comparison").html('<img src="curveDisplay.php?width=900&amp;mode=id_curve&amp;id_curve={$info.id}&amp;predictions_type=algorithm&amp;id_zone='+id_zone+'&amp;timestamp='+d.getTime()+'&amp;algorithms='+algos+'&amp;display_user='+displayUser+'&amp;pred_user='+userTrend+'" />');
+}
+
+function selectAllAlgorithms(id_zone)
+{
+	$('input[id^="algorithms_'+id_zone+'_"]').attr('checked', true);
+	$("#user_"+id_zone).attr('checked', true);
+}
+
+function deselectAllAlgorithms(id_zone)
+{
+	$('input[id^="algorithms_'+id_zone+'_"]').attr('checked', false);
+	$("#user_"+id_zone).attr('checked', false);
+}
+
+</script>

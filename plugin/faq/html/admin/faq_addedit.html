@@ -1,0 +1,23 @@
+<h1>{$title} Question</h1>
+
+<form method="post" action="?Request/Faq/addedit">
+	<input type="hidden" name="id" value="{$id}" />
+	<table>
+		<tr>
+			<td>Question</td>
+			<td>
+				{jphp_widget p=Editor textarea_name="question" textarea_value=$question}
+			</td>
+		</tr>
+		<tr>
+			<td>Answer</td>
+			<td>
+				{jphp_widget p=Editor textarea_name="answer" textarea_value=$answer}
+			</td>
+		</tr>
+	</table>
+	<p>
+		<input type="submit" value="{$submit}" />
+		{jphp_backButton}
+	</p>
+</form>

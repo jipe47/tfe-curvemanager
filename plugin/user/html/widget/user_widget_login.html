@@ -1,0 +1,20 @@
+<div id="user_widget_login">
+	<form method="post" action="?Request/User/connection/login">
+		<input type="hidden" name="back" value="{$back}" />
+		<div class="div_login">
+			<p>
+				<input type="text" placeholder="Login" name="login_login" size="10" />
+			</p>
+			<p>
+				<input type="password" placeholder="Password" name="login_password" size="10" />
+			</p>
+			<p><input type="submit" value="Ok" class="button_link" /></p>
+		</div>
+	</form>
+</div>
+<script type="text/JavaScript">
+$(document).ready(function()
+		{
+	$("#user_widget_login .tab_login :input[placeholder]").placeholder();
+		});
+</script>

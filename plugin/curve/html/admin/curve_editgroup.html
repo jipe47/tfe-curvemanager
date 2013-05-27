@@ -1,0 +1,27 @@
+<h1>Level Editing</h1>
+
+{assign var=array_ancestor value=Category::getAncestors({$info.id_category}, true)}
+
+<form method="post" action="?Request/Curve/group/edit">
+	<input type="hidden" name="id" value="{$info.id}" />
+	<table>
+		<tr>
+			<td><label for="name">Name:</label></td>
+			<td><input type="text" name="name" value="{$info.name}" /></td>
+		</tr>
+		<tr>
+			<td>Category:</td>
+			<td>
+				{foreach from=$array_ancestor item=a}
+				<a href="?Admin/Curve/list/{$a.id}">{$a.name}</a> {if $a.id != $info.id_category}&gt;{/if}
+				{/foreach}
+			</td>
+		</tr>
+		<tr>
+			<td><label for="nbr_curve">Number of curve:</label></td>
+			<td><input type="text" name="nbr_curve" value="{$info.nbr_curve}" /></td>
+		</tr>
+	</table>
+	
+	<p><input type="submit" value="Edit" /></p>
+</form>

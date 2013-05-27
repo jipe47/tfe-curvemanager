@@ -1,0 +1,17 @@
+<div id="div_faq">
+	<h1>FAQ</h1>
+	
+	<ul class="questions">
+		{foreach from=$array_faq item=f}
+		<li><a href="?Faq#faq{$f.id}">{$f.question}</a></li>
+		{/foreach}
+	</ul>
+	
+	{foreach from=$array_faq item=f}
+	<div class="faq_single" id="faq{$f.id}">
+		<div class="question">{$f.question}</div>
+		<div class="answer">{$f.answer}</div>
+	</div>
+	{/foreach}
+
+</div>

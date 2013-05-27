@@ -1,0 +1,31 @@
+<div id="bugtracker_list">
+	<h1>Bug Tracker</h1>
+	
+	<p><a href="?Bugtracker/add">New issue</a></p>
+	
+	<h2>Reported Issues</h2>
+	
+	<table>
+		<tr>
+			<th width="40">ID</th>
+			<th width="100">Status</th>
+			<th width="50">Version</th>
+			<th>Summary</th>
+			{if isAdmin()}<th width="50">Actions</th>{/if}
+		</tr>
+		{foreach from=$array_bug item=b}
+		<tr>
+			<td class="center"><a href="?Bugtracker/view/{$b.id}">{$b.id}</a></td>
+			<td class="center status_{$b.status}">{$array_status.{$b.status}}</td>
+			<td class="center">{$b.version}</td>
+			<td><a href="?Bugtracker/view/{$b.id}">{$b.summary}</a></td>
+			{if isAdmin()}
+			<td class="center">
+				<a href="?Admin/Bugtracker/edit/{$b.id}"><img src="{'edit'|jphp_button}" title="Edit" alt="Edit" /></a>
+				{jphp_widget p=Modal w=confirm button_text={jphp_image src={'delete'|jphp_button} description="Delete this issue"} handler_yes="?Request/Bugtracker/delete/{$b.id}" message="Are you sure you want to delete this issue?"}
+			</td>
+			{/if}
+		</tr>
+		{/foreach}
+	</table>
+</div>

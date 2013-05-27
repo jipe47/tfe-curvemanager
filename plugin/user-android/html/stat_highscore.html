@@ -1,0 +1,19 @@
+{if !$androidView}
+<h1>Highscore</h1>
+{/if}
+<div id="highscore">
+	<table>
+		<tr>
+			<th width="10">Rank</th>
+			<th>Nickname</th>
+			<th width="100">Score</th>
+		</tr>
+		{foreach from=$array_score key=rank item=s}
+		<tr{if $s.id == $id_user} class="current_user"{/if}>
+			<td class="center">{$rank + 1}</td>
+			<td>{$s.country|jphp_countryFlag} {if $s.nickname != ""}{$s.nickname|truncate:12}{else}Anonymous{/if}</td>
+			<td>{$s.score}&euro;</td>
+		</tr>
+		{/foreach}
+	</table>
+</div>

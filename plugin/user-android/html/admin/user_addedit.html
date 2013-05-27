@@ -1,0 +1,44 @@
+<div class="sub_content">
+	<h1>{$title} Curve</h1>
+	<form method="post" action="?Request/Curve/addedit" enctype="multipart/form-data" id="form">
+		<input type="hidden" name="id" value="{$info.id}" />
+		<p>Name: <input type="text" name="name" value="{$info.name}"/></p>
+		<p>Tag(s): <input type="text" name="tag" value="{$info.tag}"/></p>
+		<p>Category: <select name="id_category">
+						<option value="NULL">None</option>
+						{foreach from=$array_cat item=c}
+							<option value="{$c.id}" {if $info.id_category == $c.id}selected="selected"{/if}>
+								{section name=foo start=1 loop=$c.level step=1}- {/section}{$c.value.name}</option>
+						{/foreach}
+					</select></p>
+		<p>Description:</p>
+		
+		{jphp_widget p=Editor textarea_name=description textarea_value=$info.description}
+		
+		<p>Set priority: <input type="checkbox" name="priority"{if $info.priority} checked="checked"{/if} /></p>
+		<p>Priority threshold: <input type="checkbox" name="priority_threshold" value="{$info.priority_threshold}" /></p>
+		<p>Display: <input type="checkbox" name="display"{if $info.display} checked="checked"{/if} /></p>
+		
+		
+		<hr />
+		<div id="preview">
+		</div>
+		<div id="debug">
+		</div>
+		
+		<p>Start X : <input type="text" name="x_start" value="{$info.x_start}" /></p>
+		<p>End X : <input type="text" name="x_end" value="{$info.x_end}" /></p>
+		<p>Step X : <input type="text" name="x_step" value="{$info.x_step}" /></p>
+		<p>Noise : <input type="text" name="noise" value="{$info.noise}" /></p>
+		<p>Function : <input type="text" name="f" value="{$info.f}" /></p>
+		
+		<p><input type="button" onclick="adminDisplayCurve()" value="Preview" /></p>
+		
+		<hr />
+		
+		<p>
+			<input type="submit" value="{$submit}" />
+			{jphp_backButton}
+		</p>
+	</form>
+</div>

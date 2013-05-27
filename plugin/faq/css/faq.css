@@ -1,0 +1,17 @@
+#div_faq .questions
+{
+	padding-left: 40px;
+}
+
+#div_faq .faq_single .question
+{
+	font-weight: bold;
+}
+#div_faq .faq_single
+{
+	border-top: 1px gray solid;
+	width: 95%;
+	margin: auto;
+	margin-top: 5px;
+	padding-top: 5px;
+}

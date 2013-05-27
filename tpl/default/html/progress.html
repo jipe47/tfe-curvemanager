@@ -1,0 +1,21 @@
+{foreach from=$array_title key=input item=title}
+{assign var=i value=$user_group.$input}
+{assign var=nbr_curve_unpredicted value=($i.nbr_curve - $i.nbr_curve_predicted)}
+<div class="progress_line">
+	<h3>{$title}</h3>
+
+	<p>{intval($i.percentage)}% completed
+	{if $i.nbr_curve != $i.nbr_curve_predicted}
+	, {$nbr_curve_unpredicted} curve{if $nbr_curve_unpredicted > 1}s{/if} remaining
+	{/if}
+	</p>
+	<div class="progressbar">
+		<div class="textRight">{if intval($i.percentage) != 100}Level {intval($i.position)+2}{/if}</div>
+		<div class="textLeft">Level {intval($i.position)+1}</div>
+		<div class="clearfix"></div>
+		<div class="container">
+			<div class="bar" style="width: {intval($i.percentage)}%"></div>
+		</div>
+	</div>
+</div>
+{/foreach}

@@ -1,0 +1,19 @@
+{$contained}
+
+<table id="android-nav">
+	<tr>
+		<td class="colLeft">
+		{if $nav.hasPrevious}
+			<a href="?Help{if $androidView}/android{/if}/{$nav.previous}"><img width="65" src="{$TPL}images/nav_arrow_left.png" /></a>
+		{/if}
+		</td>
+		<td class="colCenter">
+		{$nav.current}/{$nav.total}
+		</td>
+		<td class="colRight">
+		{if $nav.hasNext}
+			<a href="?Help{if $androidView}/android{/if}/{$nav.next}"><img width="65" src="{$TPL}images/nav_arrow_right.png" /></a>
+		{/if}
+		</td>
+	</tr>
+</table>

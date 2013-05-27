@@ -1,0 +1,29 @@
+#highscore table
+{
+	border-collapse: collapse;
+	margin: auto;
+	width: 500px;
+}
+
+
+#highscore table td, #highscore table th
+{
+	border: 1px black solid;
+	padding: 3px;
+}
+
+#highscore table th
+{
+	color: white;
+	background-color: #22427C;
+}
+
+#highscore table td
+{
+	
+}
+
+#highscore table .center
+{
+	text-align: center;
+}

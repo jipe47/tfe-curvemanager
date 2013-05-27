@@ -1,0 +1,61 @@
+<div id="admin_panel">
+	<h1>Administration Panel</h1>
+
+	<div class="colleft">
+		{foreach from=$array_plugin key=name item=i}
+		<a
+			href="#" onclick="adminShowSubPanel('subpanel_{$name}')"><div>{$name}</div></a>
+		<br /> {/foreach}
+	</div>
+
+
+	<div id="admin_subpanels" class="colright">
+
+		{foreach from=$array_plugin key=name item=i name=loop_plugin}
+		<div id="subpanel_{$name}" class="panel">
+			<h2>{$name}</h2>
+
+			{foreach from=$i.links item=l} <a
+				href='{jphp_mkLink arg="Admin,{$name},{$l.link}"}'>{$l.name}</a><br />
+			{/foreach} {if count($i.scripts) > 0}
+			<h4>Scripts</h4>
+			{foreach from=$i.scripts key=k item=s}
+			<div class="script">
+				<div class="script_name"> <img
+					src="{$COMMON}images/buttons/arrow_right.png" title="Expand"
+					alt="Expand" /> <img src="{$COMMON}images/buttons/arrow_down.png"
+					title="Reduce" alt="Reduce" style="display: none" /> {$s.name}
+				</div>
+				<div class="script_content">
+					{if count($s.arg) > 0}
+					<h5>Args</h5>
+					<table>
+					{foreach from=$s.arg item=a}
+					<tr>
+						<td>
+							{$a.friendlyname} :
+						</td>
+						<td><input type="text"
+								size="10"
+								class="plugin{$smarty.foreach.loop_plugin.index}_script{$k}"
+								name="{$a.fieldname}" {if $a.default !=""} value="{$a.default}" {/if} />
+						</td>
+					</tr>
+					{/foreach} {/if} <br /> 
+					</table>
+					
+					<input type="hidden" id="plugin{$smarty.foreach.loop_plugin.index}_script{$k}" value="{$s.accessname}" /> 
+					
+					<input type="button" onclick="jphp_startScript({{$smarty.foreach.loop_plugin.index}}, {$k})" value="Start script" />
+					<div id="output_{$smarty.foreach.loop_plugin.index}_{$k}"></div>
+				</div>
+
+			</div>
+			{/foreach} {else}
+			<!-- <p><em>There is no script for this plugin.</em></p> -->
+			{/if}
+		</div>
+		{/foreach}
+	</div>
+	<div class="clearfix"></div>
+</div>

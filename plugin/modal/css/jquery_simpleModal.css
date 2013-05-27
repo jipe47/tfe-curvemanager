@@ -1,0 +1,82 @@
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}
+
+.leanModal_window
+{
+	background-color: white;
+	padding: 5px;
+	border: 2px #3289e6 solid;
+	display: none;
+	width: 550px;
+	margin-top: -50px;
+}
+
+.leanModal_window .resizer
+{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 19px;
+	height: 19px;
+}
+.leanModal_window .titleBar
+{
+	background-image: url('../images/background_title.png');
+	position: absolute;
+	left: 0;
+	top: 0;
+	/*max-height: 35px;*/
+	width: 100%;
+	
+	color: white;
+	font-weight: bold;
+	font-size: 16px;
+	padding-top: 5px;
+
+}
+.leanModal_window .closeButton
+{
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.leanModal_window .closeButton:hover
+{
+	cursor: pointer;
+}
+.leanModal_window .titleBar p
+{
+	margin: 3px;
+	margin-left: 10px;
+}
+.leanModal_window .content
+{
+	margin: auto;
+	margin-top: 40px;
+	overflow: auto;
+	max-height: 450px;
+}
+
+/*********************/
+/** Confirm windows **/
+/*********************/
+.leanModal_confirm_buttons
+{
+	float: right;
+	margin-top: 25px;
+	margin-bottom: 5px;
+}
+
+.leanModal_window .buttons
+{
+	float: right;
+	margin-top: 10px;
+}

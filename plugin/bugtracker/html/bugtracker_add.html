@@ -1,0 +1,47 @@
+<div id="bugtracker_add">
+<h1>New Issue</h1>
+
+{jphp_message type="warning" text="Before sending an issue, be sure <a href='?Bugtracker'>it has not been already reported</a>."}
+
+<form method="post" action="?Request/Bugtracker/add">
+	<table class="tab_struct">
+		<tr>
+			<td>Summary*</td>
+			<td><input type="text" name="summary" size="60"/></td>
+		</tr>
+		<tr>
+			<td>Android version</td>
+			<td>
+				<select name="version">
+				{foreach from=array_reverse($array_android) item=a}
+					<option value="{$a.version}">{$a.version}{if $a.name != ""} - {$a.name}{/if}</option>
+				{/foreach}			
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Device</td>
+			<td><input type="text" name="device" /></td>
+		</tr>
+		<tr>
+			<td>Description</td>
+			<td><textarea name="description" cols="60" rows="4"></textarea></td>
+		</tr>
+		<tr>
+			<td>How to reproduce the issue</td>
+			<td><textarea name="reproduction" cols="60" rows="4"></textarea></td>
+		</tr>
+		<tr>
+			<td>Are you human?</td>
+			<td>
+				{jphp_widget p=Captcha}
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Add"></td>
+		</tr>
+	</table>
+	<p><em>*: mandatory fields.</em></p>
+</form>
+</div>

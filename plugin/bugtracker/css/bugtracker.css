@@ -1,0 +1,80 @@
+/*
+	BUG IN GENERAL
+*/
+
+.status_open
+{
+	background-color: green;
+}
+
+.status_closed
+{
+	background-color: red;
+}
+
+.status_wontfix
+{
+	background-color: lightgray;
+}
+
+/*
+	BUG LISTING
+*/
+
+#bugtracker_list table
+{
+	width: 90%;
+	border-collapse: collapse;
+	margin: auto;
+}
+
+#bugtracker_list table td, #bugtracker_list table th
+{
+	border: 1px black solid;
+	padding: 2px;
+}
+
+#bugtracker_list table th
+{
+	text-align: center;
+	background-color: #22427C;
+	color: white;
+}
+
+#bugtracker_list table td
+{
+	
+}
+
+#bugtracker_list table .center
+{
+	text-align: center;
+}
+
+
+/*
+	BUG VIEW
+*/
+
+#bugtracker_view .info
+{
+	border-collapse: collapse;
+}
+
+#bugtracker_view .info td, #bugtracker_view .info th
+{
+	border: 1px black solid;
+	padding: 2px;
+}
+
+#bugtracker_view .info th
+{
+	text-align: center;
+	background-color: #22427C;
+	color: white;
+}
+
+#bugtracker_view .info td
+{
+	
+}

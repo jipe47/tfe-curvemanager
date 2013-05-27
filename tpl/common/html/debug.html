@@ -1,0 +1,191 @@
+<div id="debugger">
+	<h1>Debugger</h1>
+	
+	<div class="buttons">
+		{foreach from=$array_panel item=p}
+		<span onclick="debug_toggle('{$p}')" id="button_{$p}_white" class="button white">{$p}</span>
+		<span onclick="debug_toggle('{$p}')" id="button_{$p}_orange" class="button orange" style="display:none">{$p}</span>
+		{/foreach}
+	</div>
+	
+	<div class="panels">
+		<div class="panel" id="cache_notification">
+			<h2>Cache Notification</h2>
+			
+			<ul>
+				{foreach from=$array_notify key=k item=v}
+					<li>{$k} : {$v}</li>
+				{/foreach}
+			</ul>
+		</div>
+	
+		<div class="panel" id="debug_config">
+			<h2>Config</h2>
+			{foreach from=$array_config key=config item=items}
+			<h3>{$config}</h3>
+			<ul>
+				{foreach from=$items key=k item=i}
+				<li>{$k} : {$i}</li>
+				{/foreach}
+			</ul>
+			{/foreach}
+		</div>
+		<div class="panel" id="debug_pageRegister">
+			<h2>Page Register</h2>
+			
+			{foreach from=$array_pageRegister key=type item=pages}
+				<h3>Type: {$type}</h3>
+				<table class="tab_admin">
+					<tr>
+						<th>Page Name</th>
+						<th>Class Name</th>
+						<th>Plugin Name</th>
+					</tr>
+					{foreach from=$pages key=pagename item=p}
+					<tr>
+						<td>{$pagename}</td>
+						<td>{$p.classname}</td>
+						<td>{$p.pluginname}</td>
+					</tr>
+					{/foreach}
+				</table>
+			{/foreach}
+		</div>
+		<div class="panel" id="debug_chrono">
+			<h2>Chronometers</h2>
+			<div class="colleft">
+				<table class="tab_admin">
+				{foreach from=$array_chrono key=name item=t}
+					<tr><td>{$name}</td><td>{$t}ms</td></tr>
+				{/foreach}
+				</table>
+			</div>
+			<div class="colright">
+				<h3>Slowest</h3>
+				<table class="tab_admin">
+				{foreach from=$array_chrono_slow key=name item=t}
+					<tr><td>{$name}</td><td>{$t}ms</td></tr>
+				{/foreach}
+				</table>
+				
+				<h3>CSV</h3>
+				<textarea>{implode(";",array_keys($array_chrono))}
+{implode(";",array_values($array_chrono))}</textarea>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="panel" id="debug_user">
+			<h2>User Object</h2>
+			{if $isAdmin}
+				{jphp_message type="success" text="isAdmin"}
+			{else}
+				{jphp_message type="error" text="not isAdmin"}
+			{/if}
+			
+			{if $isConnected}
+				{jphp_message type="success" text="isConnected"}
+			{else}
+				{jphp_message type="error" text="not isConnected"}
+			{/if}
+			
+			{if $hasRight}
+				{jphp_message type="success" text="hasRight"}
+			{else}
+				{jphp_message type="error" text="not hasRight"}
+			{/if}
+			
+			<p>UserId : {$id_user}</p>
+			<p>Group(s) : {$array_group}</p>
+			<p>Right(s): </p>
+			<ul>
+				{foreach from=$array_right item=r}
+					<li>{$r}</li>
+				{/foreach}
+			</ul>
+		</div>
+		<div class="panel" id="debug_sql">
+			<h2>Sql Debug</h2>
+			<p>{$nbrRequest} request(s) :</p>
+			<ol>
+				{foreach from=$array_request key=k item=r}
+				<li>{$r}</li>
+				{/foreach}
+			</ol>
+		</div>
+		<div class="panel" id="debug_right">
+			<h2>Recorder rights</h2>
+			<ul>
+				{foreach from=$array_all_right key=r item=d}
+				<li>{$r} : {$d}</li>
+				{/foreach}
+			</ul>
+		</div>
+		<div class="panel" id="debug_plugin">
+			<h2>Loaded Plugin(s)</h2>
+			<ul>
+			</ul>
+		</div>
+		<div class="panel" id="debug_log">
+			<h2>Log</h2>
+			<ul id="log_messages">
+				{foreach from=$array_log item=l}
+					<li class="{$l.type}">
+						{$l.timestamp|date_format:"%c"} - {$l.message} (ip : {$l.ip})
+					</li>
+				{/foreach}
+			</ul>
+		</div>
+		<div class="panel" id="debug_cookie">
+			<h2>Cookies NomNomNom</h2>
+			<ul>
+				{foreach from=$array_cookie key=k item=i}
+					<li>{$k} =  {$i}</li>
+				{/foreach}
+			</ul>
+		</div>
+		<div class="panel" id="debug_session">
+			<h2>Sessions</h2>
+			<ul>
+				{foreach from=$array_session key=k item=i}
+					<li>{$k} =  {$i}</li>
+				{/foreach}
+			</ul>
+		</div>
+		
+		<div class="panel" id="debug_cache">
+			{function debug_displaycache level=0}
+			<table class="tab_admin">
+			  {foreach from=$data key=k item=i}
+			  	<tr>
+			  		<td>{$k}</td>
+			  		<td>
+				    {if is_array($i)}
+				      {debug_displaycache data=$i level=$level+1}
+				    {else}
+				     	{$i}
+				    {/if}
+			    	</td>
+			    </tr>
+			  {/foreach}
+			 </table>
+			{/function}
+		
+		
+			<p><a href="?Request/jphp/flushcache" class="button orange">Rebuild cache</a></p>
+			{foreach from=$array_cache key=section item=c}
+			<h2>{$section}</h2>
+				{foreach from=$c key=subsection item=i}
+					<h3>{$subsection}</h3>
+					{debug_displaycache data=$i}
+				{/foreach}
+			{/foreach}
+			<p><a href="?Request/jphp/flushcache" class="button orange">Rebuild cache</a></p>
+		</div>
+	</div>
+	<!--<h2>Server</h2>
+	<ul>
+	{foreach from=$array_server key=k item=i}
+		<li>{$k} -> {$i}</li>
+	{/foreach}
+	</ul>-->
+</div>

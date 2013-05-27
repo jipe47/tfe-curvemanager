@@ -1,0 +1,92 @@
+#debugger h1
+{
+	font-size: 18px;
+	float: left;
+}
+#debugger p, #debugger li
+{
+	font-size: 13px;
+}
+#log_messages
+{
+	max-height: 500px;
+	overflow-y: scroll;
+}
+#log_messages li
+{
+	padding: 2px;
+	list-style-type: none;
+}
+
+#log_messages .info
+{
+	color: blue;
+}
+
+#log_messages .warning
+{
+	color: orange;
+}
+
+#log_messages .error
+{
+	color: red;
+	font-weight: bold;
+}
+
+#log_messages .confirm
+{
+	color: green;
+}
+
+#debugger
+{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	width: 100%;
+	padding-left: 10px;
+	height: 40px;
+	
+	background-color: orange;
+	border-top: 1px red solid;
+}
+#debugger pre, #debugger #debug_cache .tab_admin
+{
+	font-size: 11px;
+}
+#debugger .panel
+{
+	position: fixed;
+	display: none;
+	bottom: 41px;
+	background-color: white;
+	z-index: 200;
+	width: 95%;
+	max-height: 350px;
+	overflow: auto;
+	border-top: 2px red solid;
+	border-left: 2px red solid;
+	border-right: 2px red solid;
+}
+#debugger .panel .colleft
+{
+	width: 49%;
+	float: left;
+}
+#debugger .panel .colright
+{
+	width: 49%;
+	float: right;
+}
+#debugger .buttons
+{
+	/*background-color: red;*/
+	min-width: 100px;
+	min-height: 40px;
+}
+#debugger .buttons span
+{
+	cursor: pointer;
+}

@@ -1,0 +1,90 @@
+<div class="sub_content">
+	<h1>{$title} Curve</h1>
+	<form method="post" action="?Request/Curve/curve/addedit" enctype="multipart/form-data" id="form">
+		<input type="hidden" name="id" value="{$info.id}" />
+		<p>Name: <input type="text" name="name" value="{$info.name}"/></p>
+		<p>Tag(s): <input type="text" name="tag" value="{$info.tag}"/></p>
+		<p>Category: <select name="id_category">
+						<option value="NULL">None</option>
+						{foreach from=$array_cat item=c}
+							<option value="{$c.id}" {if $info.id_category == $c.id}selected="selected"{/if}>
+								{section name=foo start=1 loop=$c.level step=1}- {/section}{$c.value.name}</option>
+						{/foreach}
+					</select></p>
+		<p>Description:</p>
+		
+		{jphp_widget p=Editor textarea_name=description textarea_value=$info.description}
+		{if $info.id == -1}
+		<p><label for="partial">Partial curve:</label> <input type="checkbox" name="partial" id="partial" /></p>
+		{/if}
+		<p><label for="display">Display:</label> <input type="checkbox" name="display" id="display"{if $info.display} checked="checked"{/if} /></p>
+		
+		<input type="hidden" id="newcurve_choice" name="newcurve_choice" value="import-file" />
+		
+		<div id="tabs">
+			
+			<ul>
+				<li><a href="#tab-import-file">Import data by file</a></li>
+				<li><a href="#tab-import-url">Import data by url</a></li>
+				<li><a href="#tab-generate">Generate data</a></li>
+			</ul>
+			
+			<div id="tab-import-file">
+				<input type="hidden" class="newcurve_choice" value="import-file" />
+				<p>File: <input type="file" name="import_file" /></p>
+				<p>Data by <select name="import_file_organisation">
+								<option value="line">line</option>
+								<option value="column">column</option>
+						</select>
+				</p>
+				<p>Column/Line index containing Ys <input type="text" name="import_file_y" value="1" size="2" /></p>
+				<p>Skip <input type="text" name="import_file_skip" value="1" size="2" /> first column(s)/line(s)</p>
+				<p>Use <input type="text" name="import_file_nbritem" value="-1" size="2"/> column(s)/line(s) (-1 to use all data available)</p>
+				<p>Column separator: <input type="text" name="import_column_separator" value="," size="2" /></p>
+				<p>Text delimiter: <input type="text" name="import_text_delimiter" value='"' size="2" /></p>
+			</div>
+			
+			
+			<div id="tab-import-url">
+				<input type="hidden" class="newcurve_choice" value="import-url" />
+				<p>Url: <input type="text" name="import_url" id="import_url" /></p>
+				<p><em>Soon supported: <a href="http://www.quandl.com/">Quandl</a></em>.</p>
+			</div>
+			
+			<div id="tab-generate">
+				<input type="hidden" class="newcurve_choice" value="generate" />
+				<div id="preview">
+				</div>
+				<div id="debug">
+				</div>
+				
+				<p>Start X : <input type="text" class="gen_value" name="gen_x_start" value="{$info.x_start}" /></p>
+				<p>End X : <input type="text" class="gen_value" name="gen_x_end" value="{$info.x_end}" /></p>
+				<p>Step X : <input type="text" class="gen_value" name="gen_x_step" value="{$info.x_step}" /></p>
+				<p>Noise : <input type="text" class="gen_value" name="gen_noise" value="{$info.noise}" /></p>
+				<p>Function : <input type="text" class="gen_value" name="gen_f" value="{$info.f}" /></p>
+				
+				<p><input type="button" onclick="adminDisplayNewCurve()" value="Preview" /></p>
+			</div>
+			
+		</div>
+		
+		
+		<p>
+			<input type="submit" value="{$submit}" />
+			{jphp_backButton}
+		</p>
+	</form>
+</div>
+
+<script type="text/JavaScript">
+function initTabs()
+{
+	$("#tabs").tabs({
+		activate: function( event, ui ) 
+		{
+			$("#newcurve_choice").val($(".newcurve_choice", ui.newPanel).val());
+		}
+	});
+}
+</script>

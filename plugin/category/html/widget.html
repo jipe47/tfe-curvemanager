@@ -1,0 +1,16 @@
+{function category_display level=0}
+<ul class="category_widget">
+  {foreach from=$data item=i}
+  <li {if $i->id == $id_selected}class="selected"{/if}> 
+  		{if in_array($i->id, $array_highlight)}
+  		<img src="{'star'|jphp_icon}" />
+  		{/if}
+  		<a href="?Admin/Curve/list/{$i->id}">{$i->name}</a> ({$i->nbr_curve})
+	    {if count($i->childs) > 0}
+      		{category_display data=$i->childs level=$level+1 id_selected=$id_selected}
+	    {/if}
+	</li>
+  {/foreach}
+</ul>
+{/function}
+{category_display data=$categories id_selected=$id_selected}

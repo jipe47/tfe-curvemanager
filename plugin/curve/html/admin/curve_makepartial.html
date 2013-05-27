@@ -1,0 +1,58 @@
+<h1>Curve Prioritization</h1>
+
+<form method="post" action="?Request/Curve/curve/makepartial">
+	<input type="hidden" id="id_curve" name="id_curve" value="{$info.id}" />
+	<input type="hidden" id="x_last" value="{$info.points.{count($info.points) - 1}.0}" />
+	
+	
+	
+	<div id="preview"></div>
+	
+	
+	<table class="tab_struct">
+		<tr>
+			<td>Missing values:</td>
+			<td>
+				<ul style="list-style-type: none;">
+					<li>
+						<input type="radio" name="missing_choice" id="missing_choice_nbr" checked="checked" value="nbr"/>
+						<label for="missing_choice_nbr">Number of missing values:</label> <input type="text" id="missing_nbr" name="missing_nbr" />
+					</li>
+					<li>
+						<input type="radio" name="missing_choice" id="missing_choice_x" value="x"/>
+						<label for="missing_choice_x">Last missing X:</label> <input type="text" id="missing_x" name="missing_x" />
+					</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="missing_ys">Missing Ys:</label></td>
+			<td>
+				<input type="text" id="missing_ys" name="missing_ys" /> (semicolon-separated values)
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td><label for="missing_ys">Prediction:</label></td>
+			<td>
+				<input type="text" id="prediction" name="prediction" /> (semicolon-separated values)
+				<br />
+				<input type="button" onclick="" value="Compute prediction using a SLA"/>
+				<select name="sla" id="sla">
+					<option value="nn">Neural Network</option>
+				</select>
+				<span id="prediction_status"></span>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<p>
+		<input type="submit" value="Save" />
+		<input type="button" onclick="adminDisplayPartialCurve()" value="Preview curve"/>
+	</p>
+</form>

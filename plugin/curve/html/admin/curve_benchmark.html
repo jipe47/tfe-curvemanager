@@ -1,0 +1,322 @@
+<h1>Benchmark</h1>
+
+<h2>Scores Per level</h2>
+<table class="tab_admin">
+	<tr>
+		<th rowspan="3" width="20">Position</th>
+		<th rowspan="3">Name</th>
+		<th rowspan="3">Category</th>
+		<th colspan="{count($array_input) - 2 + (count($array_input)-1) * count($array_algorithm)}">SMAPE</th>
+		<th>
+		<th colspan="{(count($array_input) - 1) + (count($array_input)-2) * count($array_algorithm)}">Good Answer</th>
+	</tr>
+	<tr>
+		{foreach from=$array_input key=k item=i}
+			
+			<th colspan="{count($array_algorithm)}">{$i}</th>
+			{if $k != count($array_input)-1}
+			<th></th>
+			{/if}
+			
+		{/foreach}
+	</tr>
+	<tr>
+		{foreach from=$array_input key=k item=i}
+			{foreach from=$array_algorithm item=a}
+			<th>{$a.name}</th>
+			{/foreach}
+			{if $k != count($array_input) - 1}
+			<th></th>
+			{/if}
+		{/foreach}
+	</tr>
+	
+	{foreach from=$array_group item=g}
+		{assign var=array_ancestor value=Category::getAncestors({$g.id_category})}
+		<tr>
+			<td class="center">{$g.position + 1}</td>
+			<td><a href="?Admin/Curve/benchmark/{$g.id}">{$g.name}</a></td>
+			<td>
+				{foreach from=$array_ancestor item=a}
+				<a href="?Admin/Curve/list/{$a.id}">{$a.name}</a> &gt;
+				{/foreach}
+				<a href="?Admin/Curve/list/{$g.id_category}">{$g.category_name}</a>
+			</td>
+			{foreach from=$array_input key=k item=input}
+			
+				{if count($g.benchmark.$input) > 0}
+					{foreach from=$array_algorithm item=a}
+						{if array_key_exists($a.id, $g.benchmark.$input)}
+						<td class="center" 
+							{if $a.id == $array_best_algorithms.$input.{$g.parentcategory_name}.{$g.category_name}.first} 
+							style="background-color: green; color: white; font-weight: bold;"
+							{/if}
+							>
+							{round($g.benchmark.$input.{$a.id}, 2)}
+						</td>
+						{else}
+						<td class="center">
+							<img src="{'cross'|jphp_icon}" title="No prediction for this group" />
+						</td>
+						{/if}</td>
+					{/foreach}
+					
+					{if $k != count($array_input) - 1}
+					<th></th>
+					{/if}
+				{else}
+					<td class="center" style="background-color: gray">
+						</td>
+					{foreach from=$array_algorithm item=a}					
+						<td class="center" style="background-color: gray">
+						</td>
+					{/foreach}
+				{/if}
+		{/foreach}
+		</tr>
+	{/foreach}
+	<tr>
+		<th colspan="3">Mean</th>
+		{foreach from=$array_input key=k item=i}
+			{foreach from=$array_algorithm item=a}
+				<th></th>
+			{/foreach}
+			{if $k != count($array_input)-1}
+			<th></th>
+			{/if}
+		{/foreach}
+	</tr>
+</table>
+
+{if $id_group != -1}
+	<!-- 
+	<pre>
+	{print_r($array_curve)}
+	</pre>
+	 -->
+	<table class="tab_admin">
+		<tr>
+			<th rowspan="3" width="20">Thumb</th>
+			<th rowspan="3">Name</th>
+			<th colspan="{count($array_input) - 1 +  count($array_input) * ({count($array_algorithm)})}">SMAPE</th>
+		</tr>
+		<tr>
+			{foreach from=$array_input key=k item=i}
+				<th colspan="{count($array_algorithm)}">{$i}</th>
+				{if $k != count($array_input)-1}
+				<th></th>
+				{/if}
+			{/foreach}
+		</tr>
+		<tr>
+			{foreach from=$array_input key=k item=i}
+				{foreach from=$array_algorithm item=a}
+				<th class="center">{$a.name}</th>
+				{/foreach}
+				{if $k != count($array_input)-1}
+				<th></th>
+				{/if}
+			{/foreach}
+		</tr>
+		
+		{foreach from=$array_curve item=g}
+			<tr>
+				<td class="center"><a href="?Admin/Curve/view/{$g.id}"><img src="curveThumb.php?id_curve={$g.id}&amp;width=250&amp;height=100" /></a></td>
+				<td><a href="?Admin/Curve/view/{$g.id}">{$g.name}</a></td>
+				
+				{foreach from=$array_input key=k item=input}
+					{assign var=minError value=min($g.benchmark.$input)}
+					{foreach from=$array_algorithm item=a}
+						
+						{if array_key_exists($a.id, $g.benchmark.$input)}
+						<td  class="center"{if $g.benchmark.$input.{$a.id} == $minError} style="background-color: green; color: white; font-weight: bold;"{/if}>
+							{round($g.benchmark.$input.{$a.id}, 2)}
+						</td>
+						{else}
+						<td  class="center">
+							<img src="{'cross'|jphp_icon}" title="No prediction for this group" />
+						</td>
+						{/if}</td>
+					{/foreach}
+					
+					{if $k != count($array_input) - 1}
+					<th></th>
+					{/if}
+				{/foreach}
+				
+			</tr>
+		{/foreach}
+		<tr>
+			<th colspan="2">Mean</th>
+			{foreach from=$array_input key=k item=i}
+				{foreach from=$array_algorithm item=a}
+					<th></th>
+				{/foreach}
+				{if $k != count($array_input)-1}
+				<th></th>
+				{/if}
+			{/foreach}
+		</tr>
+	</table>
+{/if}
+
+<h3>Complete Latex output</h3>
+
+<textarea cols="100" rows="6">
+{foreach from=$array_group_t item=data}
+{literal}
+\subsection{{/literal}{$data.parentcategory_name}{literal}}
+\subsubsection{{/literal}{$data.category_name}{literal}}
+\begin{scriptsize}
+\begin{center}
+\begin{tabular}{|ll|ll|ll|}{/literal}
+\hline
+{foreach from=$array_input key=k item=i}{literal}\multicolumn{2}{|c|}{{/literal}{$i}{literal}}{/literal}{if $k != count($array_input) - 1} & {/if}{/foreach} \\
+\hline
+{foreach from=$data.benchmark item=line}{foreach from=$line key=c item=col}{$col.name} & {round($col.score, 4)} {if $c != count($line) - 1}& {/if}{/foreach} \\
+{/foreach}
+\hline
+{literal}\end{tabular}
+\end{center}
+\end{scriptsize}
+{/literal}
+{/foreach}
+</textarea>
+
+<h2>Best overall algorithms</h2>
+	
+	<table>
+		<tr>
+	{foreach from=$array_input item=input}
+			<td>
+				<h3>{$input}</h3>
+				<table class="tab_admin">
+					{foreach from=$array_error_algo_overall.$input key=id_algo item=score}
+					<tr>
+						<td>{$array_algorithm_namebyid.$id_algo}</td>
+						<td>{round($score, 4)}</td>
+					</tr>
+					{/foreach}
+				</table>
+				{/foreach}
+			</td>
+		</tr>
+	</table>
+	
+<textarea rows="6" cols="40">{literal}
+\begin{tabular}{|ll|ll|ll|}{/literal}
+\hline{foreach from=$array_latex4_v2 item=rows}
+{foreach from=$rows key=k item=col}{$col} {if $k != count($rows) - 1}&{/if} {/foreach} \\
+\hline
+{/foreach}{literal}\end{tabular} {/literal}
+</textarea>
+
+	<h3>Gain for using user agregation</h3>
+	
+	<table>
+		<tr>
+		{foreach from=$array_input item=input}
+			<td>
+				<h5>{$input}</h5>
+<textarea rows="6" cols="40">{literal}
+\begin{tabular}{{/literal}{$array_latex_usergain_cols}{literal}}{/literal}
+\hline{foreach from=$array_latex_usergain.$input item=rows}
+{foreach from=$rows key=k item=col}{$col} {if $k != count($rows) - 1}&{/if} {/foreach} \\
+\hline
+{/foreach}{literal}\end{tabular} {/literal}</textarea>
+				{/foreach}
+			</td>
+		</tr>
+	</table>
+
+	<h2>Gain for using seasonality correction</h2>
+
+	<h3>Overall</h3>
+	<table>
+		<tr>
+		{foreach from=$array_input item=input}
+			<td>
+				<h4>{$input}</h4>
+				<table class="tab_admin">
+					{foreach from=$array_gain_correction.$input key=name item=gain}
+					<tr>
+						<td>{$name}</td>
+						<td>{round($gain, 4)}</td>
+					</tr>
+					{/foreach}
+				</table>
+				{/foreach}
+			</td>
+		</tr>
+	</table>
+	
+	<textarea rows="6" cols="40">{literal}
+\begin{tabular}{{/literal}{$array_latex_correctiongain_arg}{literal}}{/literal}
+\hline{foreach from=$array_latex_correctiongain item=rows}
+{foreach from=$rows key=k item=col}{$col} {if $k != count($rows) - 1}&{/if} {/foreach} \\
+\hline
+{/foreach}{literal}\end{tabular} {/literal}
+</textarea>
+	
+	
+<h2>Best algorithms per category</h2>
+{foreach from=$array_input item=input}
+	<h3>{$input}</h3>
+	
+	<h4>Classical algorithms only</h4>
+	<table  class="tab_admin">
+		{foreach from=$array_latex1_v2.$input item=rows}
+		<tr>
+			{foreach from=$rows key=k item=col}
+				<td>{$col}</td>
+			{/foreach}
+		</tr>
+		{/foreach}
+	</table>
+	
+<textarea rows="6" cols="40">{literal}
+\begin{tabular}{{/literal}{$latex_arg}{literal}}{/literal}
+\hline{foreach from=$array_latex1_v2.$input item=rows}
+{foreach from=$rows key=k item=col}{$col} {if $k != count($rows) - 1}&{/if} {/foreach} \\
+\hline
+{/foreach}{literal}\end{tabular} {/literal}
+</textarea>
+	
+	<h4>Algorithms + seasonnality correction</h4>
+	<table  class="tab_admin">
+		{foreach from=$array_latex2_v2.$input item=rows}
+		<tr>
+			{foreach from=$rows key=k item=col}
+				<td>{$col}</td>
+			{/foreach}
+		</tr>
+		{/foreach}
+	</table>
+	
+<textarea rows="6" cols="40">{literal}
+\begin{tabular}{{/literal}{$latex_arg}{literal}}{/literal}
+\hline{foreach from=$array_latex2_v2.$input item=rows}
+{foreach from=$rows key=k item=col}{$col} {if $k != count($rows) - 1}&{/if} {/foreach} \\
+\hline
+{/foreach}{literal}\end{tabular} {/literal}
+</textarea>
+	
+	<h4>Algorithms and users</h4>
+	<table  class="tab_admin">
+		{foreach from=$array_latex3_v2.$input item=rows}
+		<tr>
+			{foreach from=$rows key=k item=col}
+				<td>{$col}</td>
+			{/foreach}
+		</tr>
+		{/foreach}
+	</table>
+	
+<textarea rows="6" cols="40">{literal}
+\begin{tabular}{{/literal}{$latex_arg}{literal}}{/literal}
+\hline{foreach from=$array_latex3_v2.$input item=rows}
+{foreach from=$rows key=k item=col}{$col} {if $k != count($rows) - 1}&{/if} {/foreach} \\
+\hline
+{/foreach}{literal}\end{tabular} {/literal}
+</textarea>
+{/foreach}

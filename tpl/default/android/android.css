@@ -1,0 +1,146 @@
+/*****************/
+/**** General ****/
+/*****************/
+
+@font-face {
+	font-family: roboto;
+	src: url('../../../font/Roboto-Regular.ttf');
+}
+@font-face {
+	font-family: roboto;
+	src: url('../../../font/Roboto-Bold.ttf');
+	font-weight: bold;
+}
+*
+{
+	font-family: roboto;
+}
+table
+{
+	border-collapse: collapse;
+}
+
+table th, table td
+{
+	border: 1px black solid;
+	padding: 3px;
+}
+
+table .center
+{
+	text-align: center;
+}
+
+h1, h2, h3
+{
+	margin: 5px;
+}
+
+p
+{
+	margin: 2px;
+}
+
+
+/************************/
+/**** Highscore Page ****/
+/************************/
+#highscore table
+{
+	margin: auto;
+	width: 95%;
+}
+#highscore .current_user td
+{
+	background-color: orange;
+}
+
+/***********************/
+/**** Progress Page ****/
+/***********************/
+
+.progressbar
+{
+}
+.progressbar .textLeft
+{
+}
+
+.progressbar .textRight
+{
+	float: right;
+}
+
+.progressbar .container
+{
+	width: auto;
+	padding: 3px;
+	border: 1px black solid;
+}
+
+.progressbar .bar
+{
+	background-color: orange;
+	height: 7px;
+}
+
+.progress_line
+{
+	margin-bottom: 5px;
+}
+
+/*******************/
+/**** Help Page ****/
+/*******************/
+
+#android-nav
+{
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+#android-nav td
+{
+	border: none;
+}
+#android-nav .colLeft, #android-nav .colRight
+{
+	min-width: 70px;
+}
+#android-nav .colLeft
+{
+	float: left;
+	text-align: right;
+}
+
+#android-nav .colRight
+{
+	float: right;
+	text-align: left;
+}
+
+#android-nav .colCenter
+{
+	margin: auto;
+	text-align: center;
+}
+.img_container
+{
+	text-align: center;
+	margin: auto;
+	margin-top: 10px;
+}
+.resize
+{
+	width: 100%;
+	max-width: 800px;
+	margin: auto;
+}
+
+.resize_small
+{
+	width: 70%;
+	max-width: 400px;
+	margin: auto;
+}

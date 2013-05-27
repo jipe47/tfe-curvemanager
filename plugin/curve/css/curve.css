@@ -1,0 +1,104 @@
+#curve_view table td
+{
+	border: 1px black solid;
+}
+
+#curve_view table th
+{
+	border: 1px black solid;
+	padding: 3px;
+}
+
+#curve_view table
+{
+	margin: auto;
+	border-collapse: collapse;
+}
+
+#curve_view fieldset
+{
+	padding: 10px;
+}
+
+#slider-newzone, #range-display
+{
+	width: 500px;
+	margin: auto;
+}
+
+#range-display
+{
+}
+
+#range-display .leftzone
+{
+	width: 50%;
+	float: left;
+}
+
+#range-display .rightzone
+{
+	width: 50%;
+	text-align: right;
+	float: right;
+}
+
+/****************/
+/** Curve List **/
+/****************/
+
+.tab_curve .hide td
+{
+	background-color: #E1E1E1;
+}
+#curve_container
+{
+	margin-left: 195px;
+}
+#curve_category_tree
+{
+	width: 190px;
+}
+
+#curve_category_tree ul
+{
+}
+
+.curve_tab_hidden
+{
+	display: none;
+}
+
+.curve_tab_show
+{
+	display: block;
+}
+
+.curve_tabs li
+{
+	float: left;
+	margin-left: 10px;
+	list-style-type: none;
+	padding: 5px 25px 5px 25px;
+	background-color: #FEFEF1;
+	
+}
+
+.curve_tabs .big
+{
+	padding: 5px 25px 5px 25px;
+	font-size: 20px;
+}
+
+.curve_tabs li:hover
+{
+	background-color: #667BA2;
+	cursor: pointer;
+}
+
+.curve_tabs .selected
+{
+	background-color: #BFC8C5;
+}
+
+

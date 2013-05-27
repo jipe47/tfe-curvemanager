@@ -1,0 +1,47 @@
+<h1>Game Statistics</h1>
+
+<h2>New Users</h2>
+
+<img src="gameStatDisplay.php?type=user" />
+
+<ul>
+	<li>Total user: {$nbr_user}</li>
+	<li>Countries:
+	<ul>
+		{foreach from=$array_country key=c item=nbr}
+		<li>
+			{if $c == ""}(unknown){else}<img src="{Country::getFlag($c)}" alt="{Country::getName($c)}" title="{Country::getName($c)}" />{/if} : {$nbr}
+		</li>
+		{/foreach}
+	</ul>
+	
+	</li>
+</ul>
+
+<h2>Predictions</h2>
+
+<img src="gameStatDisplay.php?type=prediction" />
+
+<ul>
+	<li>Number of trend predictions: {$nbr_prediction.trend}</li>
+	<li>Number of value predictions: {$nbr_prediction.value}</li>
+	<li>Number of PM predictions: {$nbr_prediction.pm}</li>
+	<li>Total number of predictions: {$nbr_prediction.total}</li>
+	<br />
+	<li>Mean number of trend predictions per user: {$nbr_prediction.trend_mean_per_user}</li>
+	<li>Mean number of value predictions per user: {$nbr_prediction.value_mean_per_user}</li>
+	<li>Mean number of PM predictions per user: {$nbr_prediction.pm_mean_per_user}</li>
+	<li>Mean number of predictions per user: {$nbr_prediction.total_mean_per_user}</li>
+	<br />
+	
+	<li>Median number of trend predictions per user: {$nbr_prediction.trend_median_per_user}</li>
+	<li>Median number of value predictions per user: {$nbr_prediction.value_median_per_user}</li>
+	<li>Median number of PM predictions per user: {$nbr_prediction.pm_median_per_user}</li>
+	<li>Median number of predictions per user: {$nbr_prediction.total_median_per_user}</li>
+	
+	<br />
+	<li>Biggest trend predictor: {$nbr_prediction.trend_biggest_nbr_prediction_user} -  {$nbr_prediction.trend_biggest_nbr_prediction} predictions</li>
+	<li>Biggest value predictor: {$nbr_prediction.value_biggest_nbr_prediction_user} - {$nbr_prediction.value_biggest_nbr_prediction} predictions</li>
+	<li>Biggest PM predictor: {$nbr_prediction.pm_biggest_nbr_prediction_user} -  {$nbr_prediction.pm_biggest_nbr_prediction} predictions</li>
+	<li>Biggest predictor: {$nbr_prediction.total_biggest_nbr_prediction_user} -  {$nbr_prediction.total_biggest_nbr_prediction} predictions</li>
+</ul>

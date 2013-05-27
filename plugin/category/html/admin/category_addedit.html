@@ -1,0 +1,31 @@
+<div class="sub_content">
+	<h1>{$title} Category</h1>
+	<form method="post" action="?Request/Category/addedit" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$info.id}" />
+		<p>Name: <input type="text" name="name" value="{$info.name}"/></p>
+		<p>Parent: <select name="id_parent">
+						<option value="NULL">None</option>
+						{foreach from=$array_cat item=c}
+							{if $info.id != $c.id && $c.level < $maxDepth}
+								<option value="{$c.id}" {if $info.id_parent == $c.id}selected="selected"{/if}>
+									{section name=foo start=1 loop=$c.level step=1}- {/section}{$c.value.name}</option>
+							{/if}
+						{/foreach}
+					</select></p>
+		<p>Icon: <input type="file" name="icon" />
+		{if $info.icon != ""}
+		<a href="{$PATH_UPLOAD}category/{$info.icon}">Current file</a>
+		
+		( <input type="checkbox" name="icon_delete" id="icon_delete"/> : <label for="icon_delete">delete this icon</label>)
+		{/if}
+		</p>
+		<p>Description:</p>
+		
+		{jphp_widget p=Editor textarea_name=description textarea_value=$info.description}
+		
+		<p>
+			<input type="submit" value="{$submit}" />
+			{jphp_backButton}
+		</p>
+	</form>
+</div>

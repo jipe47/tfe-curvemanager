@@ -1,0 +1,31 @@
+<h1>FAQ</h1>
+
+<table class="tab_admin">
+	<tr>
+		<th width="10">Position</th>
+		<th>Question</th>
+		<th width="60">Actions</th>
+	</tr>
+	{foreach from=$array_faq item=f}
+	<tr>
+		<td class="center">{($f.position + 1)}</td>
+		<td>{$f.question}</td>
+		<td class="center">
+			{jphp_widget p=Modal w=confirm button_text={jphp_image src={'delete'|jphp_button} description="Delete this question"} handler_yes="?Request/Faq/delete/{$f.id}" message="Are you sure you want to delete question?"}
+			<a href="?Admin/Faq/edit/{$f.id}"><img src="{'edit'|jphp_button}" title="Edit this question" alt="Edit this question" /></a>
+			
+			{if $f.position == 0}
+				&nbsp;&nbsp;&nbsp;
+			{else}
+				{jphp_image link="?Request/Faq/move/{$f.id}/up" src={"arrow_up"|jphp_icon} description="Move this question up"}
+			{/if}
+			
+			{if $f.position != count($array_faq) - 1}
+				{jphp_image link="?Request/Faq/move/{$f.id}/down" src={"arrow_down"|jphp_icon} description="Move this question down"}
+			{/if}
+		</td>
+	</tr>
+	{/foreach}
+</table>
+
+<p><a href="?Admin/Faq/add">Add a question</a></p>

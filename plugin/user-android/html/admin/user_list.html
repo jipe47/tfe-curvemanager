@@ -1,0 +1,26 @@
+<div class="sub_content">
+	<div id="curve_category_tree">
+		{jphp_widget p="Category" id_selected=$id_cat}
+	</div>
+
+	{if count($array_curve) == 0}
+		{if $id_cat == -1}
+			<p><em>Pick up a category on the left.</em></p>
+		{else}
+			<p><em>This category does not contain any curve.</em></p>
+		{/if}
+	{else}
+	
+	<div id="curve_container">
+		{foreach from=$array_curve item=c}
+		<div class="curve">
+			<span class="name"><a href="?Admin/Curve/view/{$c.id}">{$c.name}</a></span>
+		</div>
+		{/foreach}
+	</div>
+	{/if}
+
+
+	<p align="right"><span class="big_button"><a href="?Admin/Curve/add/{$id_cat}" class="button orange">Add a curve</a></span></p>
+	<div class="clearfix"></div>
+</div>

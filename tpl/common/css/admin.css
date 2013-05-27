@@ -1,0 +1,148 @@
+#admin table
+{
+	width: 100%;
+}
+
+#admin td, #admin th
+{
+	vertical-align: top;
+	text-align: center;
+}
+#admin th
+{
+	text-align: center;
+}
+
+#admin_panel td li
+{
+	list-style-type: none;
+}
+
+#admin_panel .colleft
+{
+	float: left;
+	width: 200px;
+	margin-left: 5px;
+	text-align: center;
+}
+
+#admin_panel .colleft div
+{
+	width: 200px;
+	height: 35px;
+	background-color: rgb(56, 141, 232);
+	padding-top: 12px;
+}
+#admin_panel .colleft div:hover
+{
+	background-color: #72B0FA;
+}
+
+#admin_panel .colleft a
+{
+	color: white;
+	text-decoration: none;
+	font-size: 14px;
+	padding: 0px;
+}
+		
+#admin_panel .colright
+{
+	float: right;
+	width: 730px;
+	
+	margin-right: 5px;
+	padding-top: 0px;	
+}
+#admin_panel .colright .panel h2
+{
+	padding-top: 0px;
+}
+
+#admin_panel .colright .panel
+{
+	display: none;
+}
+
+#admin_panel .colright .panel .script
+{
+	border: 1px #3D91E9 solid;
+	margin-bottom: 5px;
+}
+#admin_panel .colright .panel .script_content
+{
+	display: none;
+	padding: 3px;
+}
+
+#admin_panel .colright .panel .script_name
+{
+	background-color: #3D91E9;
+	color: white;
+	width: 100%;
+}
+
+#admin_panel .colright .panel .script_name:hover
+{
+	cursor: pointer;
+}
+
+
+.tab_admin
+{
+	margin-top: 15px;
+	width: 98%;
+	border-collapse: collapse;
+}
+
+.tab_admin th, .tab_admin td
+{
+	border: 1px black solid;
+	color: white;
+	padding: 3px;
+}
+.tab_admin th
+{
+	background-color: #22427C;
+	color: white;
+}
+.tab_admin td
+{
+	background-color: white;
+	color: black;
+	vertical-align: top;
+}
+.tab_admin .center, .tab_admin_sub .center
+{
+	text-align: center;
+}
+
+.tab_admin_sub
+{
+	margin: 0px;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.tab_admin_sub th, .tab_admin_sub td
+{
+	border: 1px black solid;
+	color: white;
+	padding: 3px;
+}
+.tab_admin_sub th
+{
+	background-color: #4171CB;
+	color: white;
+}
+.tab_admin_sub td
+{
+	background-color: white;
+	color: black;
+	vertical-align: top;
+}
+
+.tab_form td
+{
+	vertical-align: top;
+}

@@ -1,0 +1,17 @@
+<h1>{$info.name}</h1>
+
+<h2>Description</h2>
+
+{if $info.description != ""}{$info.description}{else}<p><em>No description.</em></p>{/if}
+
+<h2>Preview</h2>
+
+<img src="curveDisplay.php?mode=points&amp;points={$info.points}&amp;offset_endzone={$info.offset_endzone}" />
+
+<h2>At the end</h2>
+<h3>Value Predictions</h3>
+<img src="curveDisplay.php?mode=points&amp;points={$info.points}&amp;endpoints={implode(",", $predictions.ATTHEEND.VALUE)}" />
+
+<h3>PM Predictions</h3>
+<img src='statDisplay.php?type=pie&amp;data={rawurlencode(serialize($data_attheend_pm_data))}&amp;labels={rawurlencode(serialize($data_attheend_pm_label))}&amp;time={microtime()}' />
+<h3>Trend Predictions</h3>

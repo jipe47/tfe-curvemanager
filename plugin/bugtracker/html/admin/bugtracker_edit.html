@@ -1,0 +1,46 @@
+<h1>Editing Bug Report</h1>
+
+<form method="post" action="?Request/Bugtracker/edit">
+	<input type="hidden" name="id" value="{$info.id}" />
+	<table>
+		<tr>
+			<td>Summary</td>
+			<td><input type="text" name="summary" value="{$info.summary}" /></td>
+		</tr>
+		<tr>
+			<td>Status</td>
+			<td>
+				<select name="status">
+				{foreach from=$array_status key=status item=friendly}
+				<option value="{$status}"{if $status == $info.status} selected="selected"{/if}>{$friendly}</option>
+				{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Version</td>
+			<td>
+			<select name="version">
+				{foreach from=array_reverse($array_android) item=a}
+					<option value="{$a.version}"{if $a.version == $info.version} selected="selected"{/if}>{$a.version}{if $a.name != ""} - {$a.name}{/if}</option>
+				{/foreach}			
+				</select></td>
+		</tr>
+		<tr>
+			<td>Device</td>
+			<td><input type="text" name="device" value="{$info.device}" /></td>
+		</tr>
+		<tr>
+			<td>Description</td>
+			<td><textarea name="description">{$info.description}</textarea></td>
+		</tr>
+		<tr>
+			<td>How to reproduce</td>
+			<td><textarea name="reproduction">{$info.reproduction}</textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Edit"></td>
+		</tr>
+	</table>
+</form>

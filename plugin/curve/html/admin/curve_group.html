@@ -1,0 +1,110 @@
+<h1>Levels Management</h1>
+<table class="tab_admin">
+	<tr>
+		<th rowspan="2" width="20">Position</th>
+		<th rowspan="2">Name</th>
+		<th rowspan="2">Category</th>
+		<th rowspan="2" width="50">Nbr curve</th>
+		<th colspan="3">Nbr user</th>
+		<th rowspan="2">Actions</th>
+	</tr>
+	<tr>
+		<th>VALUE</th>
+		<th>PM</td>
+		<th>TREND</th>
+	</tr>
+	
+	{foreach from=$array_group item=g}
+		{assign var=array_ancestor value=Category::getAncestors({$g.id_category})}
+	<tr>
+		<td class="center">{$g.position + 1}</td>
+		<td>{$g.name}</td>
+		<td>
+			{foreach from=$array_ancestor item=a}
+			<a href="?Admin/Curve/list/{$a.id}">{$a.name}</a> &gt;
+			{/foreach}
+			<a href="?Admin/Curve/list/{$g.id_category}">{$g.category_name}</a>
+		</td>
+		<td class="center">{intval($g.nbr_curve)}</td>
+		<td class="center">{intval($g.nbr_user_value)}</td>
+		<td class="center">{intval($g.nbr_user_pm)}</td>
+		<td class="center">{intval($g.nbr_user_trend)}</td>
+		<td>
+		<a href="?Admin/Curve/editgroup/{$g.id}"><img src="{'edit'|jphp_button}" title="Edit this level" alt="Edit this level" /></a>
+		{jphp_widget p=Modal w=confirm button_text={jphp_image src={'delete'|jphp_button} description="Delete this group"} handler_yes="?Request/Curve/group/delete/{$g.id}" message="Are you sure you want to delete this group?"}
+		<img src="{'monitor'|jphp_icon}" title="Monitore results" alt="Monitore results" onclick="loadMonitoring({$g.id})"/>
+		{if $g.position == 0}
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		{else}
+			{jphp_image link="?Request/Curve/group/move/{$g.id}/up" src={"arrow_up"|jphp_icon} description="Move this group up"}
+		{/if}
+		
+		{if $g.position != count($array_group) - 1}
+			{jphp_image link="?Request/Curve/group/move/{$g.id}/down" src={"arrow_down"|jphp_icon} description="Move this group down"}
+		{/if}
+		</td>
+	</tr>
+	<tr id="monitor_{$g.id}" style="display: none">
+		<td></td>
+		<td colspan="7" class="content">
+		</td>
+		<td></td>
+	</tr>
+{/foreach}
+	<tr>
+		<th colspan="3">Total</th>
+		<th>{$total_curve}</th>
+		<th colspan="5"></th>
+	</tr>
+</table>
+
+<h2>New Group</h2>
+<form method="post" action="?Request/Curve/group/add">
+	<p>Name: <input type="text" name="name" /></p>
+	<p>
+		Category :
+		<select name="id_category">
+			<option value="NULL">None</option>
+			{foreach from=$array_cat item=c}
+				<option value="{$c.id}"{if in_array($c.id, $array_cat_ids)} style="color: rgb(200, 200, 200)"{/if}>
+					{section name=foo start=1 loop=$c.level step=1}- {/section}{$c.value.name}</option>
+			{/foreach}
+		</select>
+	</p>
+	<p>
+		Place :
+		<select name="after">
+			<option value="bottom">Bottom</option>
+			{foreach from=$array_group item=g}
+			<option value="{$g.position}">
+			after {$g.name} -  {$g.nbr_curve} curves
+			</option>
+			{/foreach}
+			<option value="top">Top</option>
+		</select>
+	</p>
+	<p>Number of curves to predict: <input type="text" name="nbr_curve" /></p>
+	<p><input type="submit" value="Add" /></p>
+</form>
+
+<h2>Progress export</h2>
+
+<textarea cols="100" rows="6">
+{foreach from=$array_group item=g}{assign var=array_ancestor value=Category::getAncestors({$g.id_category})}
+{$g.position + 1} & {trim($array_ancestor.{count($array_ancestor) - 1}.name)} & {trim($g.category_name)} & {intval($g.nbr_user_trend)} & {intval($g.nbr_user_value)} & {intval($g.nbr_user_pm)}  \\
+\hline
+{/foreach}
+</textarea>
+
+{literal}
+<script type="text/JavaScript">
+function loadMonitoring(id)
+{
+	$.post('?Ajax/Curve/admin/monitor', {id_group: id}, function(data)
+			{
+				$("#monitor_"+id+" .content").html(data);
+				$("#monitor_"+id).show();
+			});
+}
+</script>
+{/literal}

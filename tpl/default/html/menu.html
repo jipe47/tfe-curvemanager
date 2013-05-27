@@ -1,0 +1,14 @@
+<div id="menu">
+	<ul>
+		<li><a href="?Home" {if JPHP::getArg(0) == "Home"} class="active"{/if}>Home</a></li>
+		<li><a href="?Stats" {if JPHP::getArg(0) == "Stats"} class="active"{/if}>Stats</a></li>
+		<li><a href="?Highscore" {if JPHP::getArg(0) == "Highscore"} class="active"{/if}>Highscore</a></li>
+		<li><a href="?Faq" {if JPHP::getArg(0) == "Faq"} class="active"{/if}>Faq</a></li>
+		<li><a href="?About" {if JPHP::getArg(0) == "About"} class="active"{/if}>About</a></li>
+		<li><a href="?Bugtracker" {if JPHP::getArg(0) == "Bugtracker"} class="active"{/if}>Bug Tracker</a></li>
+		<li><a href="?AdminPanel"{if JPHP::getArg(0) == "AdminPanel" || JPHP::getArg(0) == "Admin"} class="active"{/if}>Admin</a></li>
+		{if User::isConnected()}
+		<li><a href="?Request/jphp/logout/{$smarty.server.QUERY_STRING}">Log out</a></li>
+		{/if}
+	</ul>
+</div>
