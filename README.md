@@ -1,7 +1,7 @@
 tfe-curvemanager
 ================
 
-Ce répertoire contient tous les fichiers sources du serveur de jeu pour l'application Android Curve Predictor. Il va de paire avec celui qui l'application : [Curve Predictor](https://github.com/jipe47/tfe-curvepredictor "Curve Predictor").
+Ce répertoire contient tous les fichiers sources du serveur de jeu pour l'application Android Curve Predictor. Il va de paire avec celui qui stocke l'application : [Curve Predictor](https://github.com/jipe47/tfe-curvepredictor "Curve Predictor").
 
 Pré-requis
 ----------
